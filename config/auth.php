@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'web_buyer',
+        'passwords' => 'buyers',
     ],
 
     /*
@@ -36,9 +36,29 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'web_buyer' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'buyers',
+        ],
+        'buyer' => [
+            'driver' => 'passport',
+            'provider' => 'buyers',
+        ],
+        'web_seller' => [
+            'driver' => 'session',
+            'provider' => 'sellers',
+        ],
+        'sellers' => [
+            'driver' => 'passport',
+            'provider' => 'sellerss',
+        ],
+        'web_administrator' => [
+            'driver' => 'session',
+            'provider' => 'administrators',
+        ],
+        'administrators' => [
+            'driver' => 'passport',
+            'provider' => 'administratorss',
         ],
     ],
 
@@ -60,9 +80,17 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'buyers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Buyer::class,
+        ],
+        'sellers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Seller::class,
+        ],
+        'administrators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Administrator::class,
         ],
 
         // 'users' => [
@@ -87,8 +115,20 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'buyers' => [
+            'provider' => 'buyers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'sellers' => [
+            'provider' => 'sellers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'administrators' => [
+            'provider' => 'administrators',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
