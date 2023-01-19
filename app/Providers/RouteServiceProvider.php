@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -39,29 +39,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
 
-            Route::group(['prefix' => 'api', 'middleware' => ['api']], function() {
-                Route::prefix('buyer')
-                    ->namespace($this->namespace)
-                    ->group(base_path('routes/buyer/api.php'));
-                Route::prefix('seller')
-                    ->namespace($this->namespace)
-                    ->group(base_path('routes/seller/api.php'));
-                Route::prefix('administrator')
-                    ->namespace($this->namespace)
-                    ->group(base_path('routes/administrator/api.php'));
+            Route::localized(function () {
+                Route::middleware('web')->group(base_path('routes/web.php'));
             });
-
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/buyer/web.php'));
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->prefix('seller')
-                ->group(base_path('routes/seller/web.php'));
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->prefix('administrator')
-                ->group(base_path('routes/administrator/web.php'));
         });
     }
 
